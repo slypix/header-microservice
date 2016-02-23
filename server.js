@@ -16,12 +16,13 @@ app.use(sass({
 }));
 
 
-function buildObj(headers, ip) {
+function buildObj(r) {
+  var ip = r.headers['x-forwarded-for'] || r.connection.remoteAddress;
   return({
-    "ipaddress" : ip,
+    "ipaddress" : ip.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/)[0],
     //"ipaddress" : headers["host"].match(/([0-9]{1,3}\.){3}[0-9]{1,3}/)[0],
-    "language" : headers["accept-language"].match(/[a-z]{2}\-[A-Z]{2}/)[0],
-    "software" : headers["user-agent"].match(/\(.+?\)/)[0]
+    "language" : r.headers["accept-language"].match(/[a-z]{2}\-[A-Z]{2}/)[0],
+    "software" : r.headers["user-agent"].match(/\(.+?\)/)[0]
   })
 }
 
@@ -33,7 +34,7 @@ app.get('/', function(req, res) {
 })
 
 app.get('/api', function (req, res) {
-  var info = buildObj(req.headers, req.ip)
+  var info = buildObj(req)
   res.writeHead(200, { 'content-type': 'application/json' })
   res.write(JSON.stringify(info))
   res.end()
