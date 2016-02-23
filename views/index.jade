@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    include ./includes/head.jade
+  body
+    //- if IE8 block
+    include ./includes/ie8.jade
+
+    .container
+      include:markdown-it ../README.md
+
+    //- Fork on github
+    include ./includes/gh-ribbon.jade
+    
+    include ./includes/footer.jade
+
+    //- js scripts
+    include ./includes/scripts.jade
