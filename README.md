@@ -10,7 +10,7 @@ The header parser microservice returns a JSON object containing some user inform
 
 ### Example
 
-```javascript
+```bash
 # the following request:
   https://slpx-headers.herokuapp.com/api
 
